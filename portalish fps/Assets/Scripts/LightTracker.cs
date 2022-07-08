@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class LightTracker : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject target;
+
 
     // Update is called once per frame
     void Update()
     {
-        
+        gameObject.transform.position = target.transform.position;
+
+        if (target == null) {
+            Destroy(gameObject);
+            Debug.Log("light destroyed via target null");
+        }
     }
+
 }

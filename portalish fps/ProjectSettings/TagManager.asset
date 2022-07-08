@@ -6,6 +6,8 @@ TagManager:
   tags:
   - CinemachineTarget
   - Illegal
+  - SuperBounce
+  - Legal
   layers:
   - Default
   - TransparentFX

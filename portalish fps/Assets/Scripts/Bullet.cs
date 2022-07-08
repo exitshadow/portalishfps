@@ -6,7 +6,9 @@ public class Bullet : MonoBehaviour
 {
     Rigidbody rb;
     public float force;
-    // public float x;
+    private float yBeforeCollision;
+    private float yAfterCollision;
+    private bool isTeleportable;
 
     public Transform playerTransform;
 
@@ -20,12 +22,23 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag != "Illegal")
+        yBeforeCollision = gameObject.transform.position.y;
+
         // if (collision.collider.CompareTag("Illegal")) // method that is less resource consuming
-        {
-            playerTransform.position = collision.GetContact(0).point;
-            Destroy(gameObject);
-        } else Debug.Log("That’s ILLEEEEEEEEGAL!!!!");
+        if (collision.collider.tag == "Legal") {
+            if (Vector3.Angle(collision.GetContact(0).normal, Vector3.up) <= 65) {
+
+                playerTransform.position = collision.GetContact(0).point;
+                Destroy(gameObject);
+            }
+            // pass light and child to destroy it here
+        }
+        
+        if (collision.collider.tag == "SuperBounce") {
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        } else {
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        }
     }
 
 }
